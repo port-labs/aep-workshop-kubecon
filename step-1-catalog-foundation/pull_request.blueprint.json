@@ -1,0 +1,36 @@
+{
+  "identifier": "pull_request",
+  "title": "Pull Request",
+  "icon": "Git",
+  "schema": {
+    "properties": {
+      "status": {
+        "title": "Status",
+        "type": "string",
+        "enum": ["open", "merged", "closed"],
+        "enumColors": { "open": "blue", "merged": "green", "closed": "red" }
+      },
+      "creator": { "title": "Creator", "type": "string" },
+      "createdAt": { "title": "Created At", "type": "string", "format": "date-time" },
+      "mergedAt": { "title": "Merged At", "type": "string", "format": "date-time" },
+      "link": { "title": "Link", "type": "string", "format": "url" }
+    }
+  },
+  "relations": {
+    "repository": {
+      "title": "Repository",
+      "target": "repository",
+      "required": false,
+      "many": false
+    }
+  },
+  "calculationProperties": {
+    "days_old": {
+      "title": "Days Old",
+      "type": "number",
+      "calculation": "if .properties.createdAt then ((now - (.properties.createdAt | fromdateiso8601)) / 86400 | floor) else 0 end"
+    }
+  },
+  "aggregationProperties": {},
+  "mirrorProperties": {}
+}

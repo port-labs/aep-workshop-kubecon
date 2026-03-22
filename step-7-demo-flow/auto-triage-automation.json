@@ -1,0 +1,38 @@
+{
+  "identifier": "auto_triage_incident",
+  "title": "Auto-Triage New Incidents",
+  "description": "Automatically run AI triage when a new incident is created",
+  "icon": "Robot",
+  "trigger": {
+    "type": "automation",
+    "event": {
+      "type": "ENTITY_CREATED",
+      "blueprintIdentifier": "incident"
+    },
+    "condition": {
+      "type": "JQ",
+      "expressions": [
+        ".diff.after.properties.severity | IN(\"SEV1\", \"SEV2\")"
+      ],
+      "combinator": "and"
+    }
+  },
+  "invocationMethod": {
+    "type": "WEBHOOK",
+    "url": "https://api.getport.io/v1/agents/oncall_triage_agent/invoke",
+    "method": "POST",
+    "headers": {
+      "Authorization": "Bearer {{secrets.PORT_API_TOKEN}}",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "prompt": "URGENT: New incident created. Please investigate immediately.\n\nIncident: {{.entity.identifier}}\nTitle: {{.entity.title}}\nSeverity: {{.entity.properties.severity}}\nAffected Service: {{.entity.relations.affected_service}}\n\nPlease:\n1. Get details about the affected service\n2. Check for recent deployments (last 48 hours)\n3. Identify the service owner and on-call\n4. Form a hypothesis about the root cause\n5. Recommend immediate actions\n\nUpdate the incident entity with your triage_summary and hypothesis fields.",
+      "context": {
+        "incident_id": "{{.entity.identifier}}",
+        "service_id": "{{.entity.relations.affected_service}}",
+        "severity": "{{.entity.properties.severity}}"
+      }
+    }
+  },
+  "publish": true
+}

@@ -1,0 +1,51 @@
+{
+  "identifier": "deployment",
+  "title": "Deployment",
+  "icon": "Deployment",
+  "schema": {
+    "properties": {
+      "version": { "title": "Version", "type": "string" },
+      "status": {
+        "title": "Status",
+        "type": "string",
+        "enum": ["pending", "in_progress", "succeeded", "failed", "rolled_back"],
+        "enumColors": {
+          "pending": "lightGray",
+          "in_progress": "blue",
+          "succeeded": "green",
+          "failed": "red",
+          "rolled_back": "orange"
+        }
+      },
+      "deployed_at": { "title": "Deployed At", "type": "string", "format": "date-time" },
+      "deployed_by": { "title": "Deployed By", "type": "string" },
+      "commit_sha": { "title": "Commit SHA", "type": "string" },
+      "commit_message": { "title": "Commit Message", "type": "string" },
+      "rollback_version": { "title": "Rollback Version", "type": "string" }
+    },
+    "required": ["version", "status"]
+  },
+  "relations": {
+    "service": {
+      "title": "Service",
+      "target": "service",
+      "required": true,
+      "many": false
+    },
+    "environment": {
+      "title": "Environment",
+      "target": "environment",
+      "required": true,
+      "many": false
+    }
+  },
+  "calculationProperties": {
+    "age": {
+      "title": "Age",
+      "type": "string",
+      "calculation": "if .properties.deployed_at then (((now - (.properties.deployed_at | fromdateiso8601)) / 3600) | floor | tostring) + \"h ago\" else \"—\" end"
+    }
+  },
+  "aggregationProperties": {},
+  "mirrorProperties": {}
+}

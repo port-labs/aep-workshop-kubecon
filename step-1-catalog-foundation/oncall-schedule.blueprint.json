@@ -1,0 +1,47 @@
+{
+  "identifier": "oncall_schedule",
+  "title": "On-Call Schedule",
+  "icon": "User",
+  "schema": {
+    "properties": {
+      "schedule_type": {
+        "title": "Schedule Type",
+        "type": "string",
+        "enum": ["primary", "secondary", "escalation"],
+        "enumColors": { "primary": "blue", "secondary": "purple", "escalation": "red" }
+      },
+      "start_time": { "title": "Start Time", "type": "string", "format": "date-time" },
+      "end_time": { "title": "End Time", "type": "string", "format": "date-time" },
+      "slack_handle": { "title": "Slack Handle", "type": "string" }
+    }
+  },
+  "relations": {
+    "service": {
+      "title": "Service",
+      "target": "service",
+      "required": false,
+      "many": false
+    },
+    "on_call_user": {
+      "title": "On-Call User",
+      "target": "_user",
+      "required": false,
+      "many": false
+    },
+    "team": {
+      "title": "Team",
+      "target": "_team",
+      "required": false,
+      "many": false
+    }
+  },
+  "calculationProperties": {
+    "is_active": {
+      "title": "Is Active",
+      "type": "boolean",
+      "calculation": "if .properties.start_time and .properties.end_time then (now >= (.properties.start_time | fromdateiso8601) and now <= (.properties.end_time | fromdateiso8601)) else false end"
+    }
+  },
+  "aggregationProperties": {},
+  "mirrorProperties": {}
+}

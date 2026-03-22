@@ -1,0 +1,84 @@
+{
+  "entities": [
+    {
+      "identifier": "payments-service",
+      "title": "Payments Service",
+      "blueprint": "service",
+      "properties": {
+        "tier": "Tier 1",
+        "lifecycle": "Production",
+        "description": "Handles all payment processing including credit cards, digital wallets, and invoicing. Critical path for revenue.",
+        "slack_channel": "#payments-team",
+        "documentation_url": "https://docs.internal/payments",
+        "latest_version": "v2.3.1"
+      },
+      "relations": {
+        "repository": "acme-payments-service"
+      }
+    },
+    {
+      "identifier": "checkout-service",
+      "title": "Checkout Service",
+      "blueprint": "service",
+      "properties": {
+        "tier": "Tier 1",
+        "lifecycle": "Production",
+        "description": "Customer-facing checkout flow. Orchestrates cart, payments, and order creation.",
+        "slack_channel": "#checkout-team",
+        "documentation_url": "https://docs.internal/checkout",
+        "latest_version": "v1.8.1"
+      },
+      "relations": {
+        "repository": "acme-checkout-service"
+      }
+    },
+    {
+      "identifier": "inventory-service",
+      "title": "Inventory Service",
+      "blueprint": "service",
+      "properties": {
+        "tier": "Tier 2",
+        "lifecycle": "Production",
+        "description": "Manages product inventory, stock levels, and warehouse integration.",
+        "slack_channel": "#inventory-team",
+        "documentation_url": "https://docs.internal/inventory",
+        "latest_version": "v3.1.0"
+      },
+      "relations": {
+        "repository": "acme-inventory-service"
+      }
+    },
+    {
+      "identifier": "notification-service",
+      "title": "Notification Service",
+      "blueprint": "service",
+      "properties": {
+        "tier": "Tier 3",
+        "lifecycle": "Production",
+        "description": "Sends transactional emails, SMS, and push notifications.",
+        "slack_channel": "#platform-team",
+        "documentation_url": "https://docs.internal/notifications",
+        "latest_version": "v2.0.5"
+      },
+      "relations": {
+        "repository": "acme-notification-service"
+      }
+    },
+    {
+      "identifier": "api-gateway",
+      "title": "API Gateway",
+      "blueprint": "service",
+      "properties": {
+        "tier": "Tier 1",
+        "lifecycle": "Production",
+        "description": "Edge service handling authentication, rate limiting, and request routing.",
+        "slack_channel": "#platform-team",
+        "documentation_url": "https://docs.internal/api-gateway",
+        "latest_version": "v4.2.0"
+      },
+      "relations": {
+        "repository": "acme-api-gateway"
+      }
+    }
+  ]
+}

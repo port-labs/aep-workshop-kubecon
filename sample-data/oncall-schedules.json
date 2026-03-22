@@ -1,0 +1,63 @@
+{
+  "description": "Sample on-call schedules - update with your actual users and times",
+  "entities": [
+    {
+      "identifier": "oncall-payments-primary",
+      "title": "Payments On-Call (Primary)",
+      "blueprint": "oncall_schedule",
+      "properties": {
+        "schedule_type": "primary",
+        "start_time": "2024-01-15T00:00:00Z",
+        "end_time": "2024-01-22T00:00:00Z",
+        "slack_handle": "@alice",
+        "pagerduty_schedule_id": "PXXXXXX",
+        "pagerduty_url": "https://acme.pagerduty.com/schedules/PXXXXXX"
+      },
+      "relations": {
+        "service": "payments-service"
+      }
+    },
+    {
+      "identifier": "oncall-payments-secondary",
+      "title": "Payments On-Call (Secondary)",
+      "blueprint": "oncall_schedule",
+      "properties": {
+        "schedule_type": "secondary",
+        "start_time": "2024-01-15T00:00:00Z",
+        "end_time": "2024-01-22T00:00:00Z",
+        "slack_handle": "@bob"
+      },
+      "relations": {
+        "service": "payments-service"
+      }
+    },
+    {
+      "identifier": "oncall-checkout-primary",
+      "title": "Checkout On-Call (Primary)",
+      "blueprint": "oncall_schedule",
+      "properties": {
+        "schedule_type": "primary",
+        "start_time": "2024-01-15T00:00:00Z",
+        "end_time": "2024-01-22T00:00:00Z",
+        "slack_handle": "@carol"
+      },
+      "relations": {
+        "service": "checkout-service"
+      }
+    },
+    {
+      "identifier": "oncall-inventory-primary",
+      "title": "Inventory On-Call (Primary)",
+      "blueprint": "oncall_schedule",
+      "properties": {
+        "schedule_type": "primary",
+        "start_time": "2024-01-15T00:00:00Z",
+        "end_time": "2024-01-22T00:00:00Z",
+        "slack_handle": "@dave"
+      },
+      "relations": {
+        "service": "inventory-service"
+      }
+    }
+  ]
+}

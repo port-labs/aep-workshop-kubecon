@@ -1,0 +1,31 @@
+{
+  "entities": [
+    {
+      "identifier": "production",
+      "title": "Production",
+      "blueprint": "environment",
+      "properties": {
+        "type": "production",
+        "description": "Live customer-facing environment. All changes require approval."
+      }
+    },
+    {
+      "identifier": "staging",
+      "title": "Staging",
+      "blueprint": "environment",
+      "properties": {
+        "type": "staging",
+        "description": "Pre-production environment for final testing. Mirrors production config."
+      }
+    },
+    {
+      "identifier": "development",
+      "title": "Development",
+      "blueprint": "environment",
+      "properties": {
+        "type": "development",
+        "description": "Shared development environment for integration testing."
+      }
+    }
+  ]
+}

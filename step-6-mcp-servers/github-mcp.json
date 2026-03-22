@@ -1,0 +1,87 @@
+{
+  "identifier": "github_mcp",
+  "title": "GitHub",
+  "description": "Query commits, pull requests, and code from GitHub repositories",
+  "icon": "Github",
+  "url": "https://your-mcp-proxy.com/github",
+  "headers": {
+    "Authorization": "Bearer {{secrets.GITHUB_TOKEN}}"
+  },
+  "allowed_tools": [
+    {
+      "name": "get_recent_commits",
+      "description": "Get recent commits for a repository",
+      "parameters": {
+        "repo": "string - Repository in org/repo format",
+        "branch": "string - Branch name (default: main)",
+        "since": "string - ISO timestamp or relative (e.g., '24h ago')",
+        "limit": "number - Max commits to return (default 20)"
+      },
+      "example": "get_recent_commits(repo='acme/payments-service', since='24h ago')"
+    },
+    {
+      "name": "get_commit_details",
+      "description": "Get details of a specific commit including diff",
+      "parameters": {
+        "repo": "string - Repository in org/repo format",
+        "sha": "string - Commit SHA"
+      },
+      "example": "get_commit_details(repo='acme/payments-service', sha='a1b2c3d')"
+    },
+    {
+      "name": "get_pull_request",
+      "description": "Get pull request details including reviews and comments",
+      "parameters": {
+        "repo": "string - Repository in org/repo format",
+        "number": "number - PR number"
+      },
+      "example": "get_pull_request(repo='acme/payments-service', number=892)"
+    },
+    {
+      "name": "search_code",
+      "description": "Search code across repositories",
+      "parameters": {
+        "query": "string - Search query",
+        "repo": "string - Optional repo filter",
+        "language": "string - Optional language filter",
+        "limit": "number - Max results (default 20)"
+      },
+      "example": "search_code(query='retry logic', repo='acme/payments-service')"
+    },
+    {
+      "name": "get_file_content",
+      "description": "Get contents of a specific file",
+      "parameters": {
+        "repo": "string - Repository in org/repo format",
+        "path": "string - File path",
+        "ref": "string - Branch, tag, or commit SHA (default: main)"
+      },
+      "example": "get_file_content(repo='acme/payments-service', path='src/retry.go')"
+    },
+    {
+      "name": "compare_commits",
+      "description": "Compare two commits or tags",
+      "parameters": {
+        "repo": "string - Repository in org/repo format",
+        "base": "string - Base commit/tag",
+        "head": "string - Head commit/tag"
+      },
+      "example": "compare_commits(repo='acme/payments-service', base='v2.3.0', head='v2.3.1')"
+    },
+    {
+      "name": "get_deployments",
+      "description": "Get deployment history from GitHub",
+      "parameters": {
+        "repo": "string - Repository in org/repo format",
+        "environment": "string - Optional environment filter",
+        "limit": "number - Max results (default 10)"
+      },
+      "example": "get_deployments(repo='acme/payments-service', environment='production')"
+    }
+  ],
+  "rate_limit": {
+    "requests_per_minute": 30,
+    "burst": 10
+  },
+  "notes": "Requires GitHub token with repo read access"
+}

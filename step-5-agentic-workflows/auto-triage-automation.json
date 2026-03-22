@@ -1,0 +1,39 @@
+{
+  "identifier": "auto_triage_incident",
+  "title": "Auto-Triage New Incidents",
+  "description": "Automatically invoke the AI triage agent when a SEV1 or SEV2 incident is created",
+  "icon": "Agent",
+  "publish": true,
+  "allowAnyoneToViewRuns": true,
+  "trigger": {
+    "type": "automation",
+    "event": {
+      "type": "ENTITY_CREATED",
+      "blueprintIdentifier": "incident"
+    },
+    "condition": {
+      "type": "JQ",
+      "expressions": [
+        ".diff.after.properties.severity | IN(\"SEV1\", \"SEV2\")"
+      ],
+      "combinator": "and"
+    }
+  },
+  "invocationMethod": {
+    "type": "WEBHOOK",
+    "url": "https://api.getport.io/v1/agent/oncall_triage_agent/invoke",
+    "agent": false,
+    "synchronized": false,
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "prompt": "URGENT: New {{ .event.diff.after.properties.severity }} incident created: {{ .event.diff.after.title }}\n\nIncident ID: {{ .event.diff.after.identifier }}\nAffected Service: {{ .event.diff.after.relations.affected_service }}\nTriggered by Deployment: {{ .event.diff.after.relations.triggered_by_deployment }}\n\nPlease investigate immediately:\n1. Get details about the affected service and its tier\n2. Check deployments to this service in the last 48 hours\n3. Look for any suspicious PRs or changes\n4. Find who is on-call\n5. Form a hypothesis on root cause\n6. Recommend a specific action\n\nWrite your findings back to incident {{ .event.diff.after.identifier }} in the triage_summary field.",
+      "context": {
+        "blueprintIdentifier": "incident",
+        "entityIdentifier": "{{ .event.diff.after.identifier }}"
+      }
+    }
+  }
+}

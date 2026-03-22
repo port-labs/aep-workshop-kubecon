@@ -1,0 +1,38 @@
+{
+  "identifier": "service",
+  "title": "Service",
+  "icon": "Microservice",
+  "schema": {
+    "properties": {
+      "tier": {
+        "title": "Tier",
+        "type": "string",
+        "enum": ["Tier 1 - Critical", "Tier 2 - Important", "Tier 3 - Standard"],
+        "enumColors": {
+          "Tier 1 - Critical": "red",
+          "Tier 2 - Important": "orange",
+          "Tier 3 - Standard": "blue"
+        }
+      },
+      "lifecycle": {
+        "title": "Lifecycle",
+        "type": "string",
+        "enum": ["production", "experimental", "deprecated"],
+        "enumColors": { "production": "green", "experimental": "orange", "deprecated": "red" }
+      },
+      "description": { "title": "Description", "type": "string" },
+      "slack_channel": { "title": "Slack Channel", "type": "string" }
+    }
+  },
+  "relations": {
+    "repository": {
+      "title": "Repository",
+      "target": "repository",
+      "required": false,
+      "many": false
+    }
+  },
+  "calculationProperties": {},
+  "aggregationProperties": {},
+  "mirrorProperties": {}
+}

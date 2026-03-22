@@ -1,0 +1,46 @@
+{
+  "identifier": "page_oncall",
+  "title": "Page On-Call",
+  "icon": "Pagerduty",
+  "description": "Page the on-call engineer for an incident",
+  "trigger": {
+    "type": "self-service",
+    "operation": "DAY-2",
+    "blueprintIdentifier": "incident",
+    "userInputs": {
+      "properties": {
+        "urgency": {
+          "type": "string",
+          "title": "Urgency",
+          "enum": ["high", "low"],
+          "enumColors": { "high": "red", "low": "orange" },
+          "default": "high"
+        },
+        "message": {
+          "type": "string",
+          "title": "Message",
+          "description": "Message to include in the page"
+        },
+        "escalation_level": {
+          "type": "string",
+          "title": "Escalation Level",
+          "enum": ["Primary on-call", "Secondary on-call", "Engineering Manager", "Incident Commander"],
+          "default": "Primary on-call"
+        }
+      },
+      "required": ["urgency", "message"],
+      "order": ["urgency", "escalation_level", "message"]
+    }
+  },
+  "invocationMethod": {
+    "type": "UPSERT_ENTITY",
+    "blueprintIdentifier": "incident",
+    "mapping": {
+      "identifier": "{{ .entity.identifier }}",
+      "properties": {
+        "description": "{{ .entity.properties.description }}\n\n---\n**Page sent:** {{ .inputs.urgency }} urgency to {{ .inputs.escalation_level }}\n**Message:** {{ .inputs.message }}"
+      }
+    }
+  },
+  "requiredApproval": false
+}

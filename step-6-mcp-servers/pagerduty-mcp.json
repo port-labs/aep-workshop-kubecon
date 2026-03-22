@@ -1,0 +1,70 @@
+{
+  "identifier": "pagerduty_mcp",
+  "title": "PagerDuty",
+  "description": "Query incidents, on-call schedules, and escalation policies from PagerDuty",
+  "icon": "PagerDuty",
+  "url": "https://your-mcp-proxy.com/pagerduty",
+  "headers": {
+    "Authorization": "Token token={{secrets.PAGERDUTY_API_KEY}}"
+  },
+  "allowed_tools": [
+    {
+      "name": "get_current_oncall",
+      "description": "Get who is currently on-call for a schedule or service",
+      "parameters": {
+        "schedule_id": "string - PagerDuty schedule ID",
+        "service_id": "string - Alternative: PagerDuty service ID"
+      },
+      "example": "get_current_oncall(service_id='PXXXXXX')"
+    },
+    {
+      "name": "get_incident",
+      "description": "Get details of a PagerDuty incident",
+      "parameters": {
+        "incident_id": "string - PagerDuty incident ID"
+      },
+      "example": "get_incident(incident_id='PXXXXXX')"
+    },
+    {
+      "name": "list_incidents",
+      "description": "List incidents with filters",
+      "parameters": {
+        "service_ids": "array - Filter by service IDs",
+        "statuses": "array - Filter by status (triggered, acknowledged, resolved)",
+        "since": "string - ISO timestamp",
+        "until": "string - ISO timestamp",
+        "limit": "number - Max results (default 25)"
+      },
+      "example": "list_incidents(statuses=['triggered', 'acknowledged'], since='24h ago')"
+    },
+    {
+      "name": "get_escalation_policy",
+      "description": "Get escalation policy details",
+      "parameters": {
+        "policy_id": "string - Escalation policy ID"
+      },
+      "example": "get_escalation_policy(policy_id='PXXXXXX')"
+    },
+    {
+      "name": "get_service",
+      "description": "Get PagerDuty service details",
+      "parameters": {
+        "service_id": "string - PagerDuty service ID"
+      },
+      "example": "get_service(service_id='PXXXXXX')"
+    },
+    {
+      "name": "get_incident_timeline",
+      "description": "Get timeline/log entries for an incident",
+      "parameters": {
+        "incident_id": "string - PagerDuty incident ID"
+      },
+      "example": "get_incident_timeline(incident_id='PXXXXXX')"
+    }
+  ],
+  "rate_limit": {
+    "requests_per_minute": 60,
+    "burst": 20
+  },
+  "notes": "Requires PagerDuty API key with read access to incidents, schedules, and services"
+}

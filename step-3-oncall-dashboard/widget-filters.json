@@ -1,0 +1,106 @@
+{
+  "widgets": {
+    "active_incidents": {
+      "description": "Shows all unresolved incidents for services the current user owns",
+      "blueprint": "incident",
+      "filter": {
+        "combinator": "and",
+        "rules": [
+          {
+            "property": "status",
+            "operator": "!=",
+            "value": "resolved"
+          }
+        ]
+      },
+      "columns": [
+        "title",
+        "severity",
+        "status",
+        "affected_service",
+        "triggered_at",
+        "triage_summary"
+      ],
+      "sort": [
+        { "property": "severity", "order": "asc" },
+        { "property": "triggered_at", "order": "desc" }
+      ]
+    },
+    "my_services": {
+      "description": "Services owned by the current user's team",
+      "blueprint": "service",
+      "filter": {
+        "combinator": "and",
+        "rules": []
+      },
+      "columns": [
+        "title",
+        "tier",
+        "lifecycle",
+        "slack_channel"
+      ],
+      "note": "Add team filter in UI: team contains {{currentUser.teams}}"
+    },
+    "recent_deployments": {
+      "description": "Deployments in the last 24 hours",
+      "blueprint": "deployment",
+      "filter": {
+        "combinator": "and",
+        "rules": [
+          {
+            "property": "deployed_at",
+            "operator": ">",
+            "value": {
+              "preset": "lastDay"
+            }
+          }
+        ]
+      },
+      "columns": [
+        "service",
+        "version",
+        "environment",
+        "deployed_by",
+        "deployed_at",
+        "commit_message"
+      ],
+      "sort": [
+        { "property": "deployed_at", "order": "desc" }
+      ],
+      "limit": 15
+    },
+    "oncall_schedules": {
+      "description": "Currently active on-call schedules",
+      "blueprint": "oncall_schedule",
+      "filter": {
+        "combinator": "and",
+        "rules": [
+          {
+            "property": "$calculationProperties.is_active",
+            "operator": "=",
+            "value": true
+          }
+        ]
+      },
+      "columns": [
+        "service",
+        "on_call_user",
+        "schedule_type",
+        "end_time"
+      ]
+    }
+  },
+  "layout": {
+    "description": "Suggested dashboard layout",
+    "rows": [
+      {
+        "widgets": ["active_incidents", "my_services"],
+        "height": "40%"
+      },
+      {
+        "widgets": ["recent_deployments", "ai_triage_agent"],
+        "height": "60%"
+      }
+    ]
+  }
+}

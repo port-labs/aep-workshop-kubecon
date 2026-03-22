@@ -1,0 +1,84 @@
+[
+  {
+    "identifier": "aws",
+    "title": "AWS",
+    "icon": "AWS",
+    "properties": {
+      "url": "https://npmcdszg8v.eu-west-1.awsapprunner.com/aws/mcp",
+      "description": "Troubleshoot cloud infrastructure for incident resolution via AWS Cloudwatch MCP",
+      "oauth_config": {
+        "client_id": "pagerduty_token_new",
+        "client_secret": "e+ETXwVTMfZZhgKZC2wg"
+      },
+      "allowed_tools": [
+        "aws_get_cloudwatch_metrics",
+        "aws_get_cloudwatch_logs",
+        "aws_get_cloudtrail_events"
+      ],
+      "exposed": true
+    }
+  },
+  {
+    "identifier": "datadog",
+    "title": "Datadog",
+    "icon": "Datadog",
+    "properties": {
+      "url": "https://npmcdszg8v.eu-west-1.awsapprunner.com/datadog/mcp",
+      "description": "Investigate metrics, logs, and incidents in Datadog",
+      "allowed_tools": [
+        "datadog_search_datadog_logs",
+        "datadog_get_datadog_metrics",
+        "datadog_get_datadog_service_dependencies",
+        "datadog_search_datadog_incidents"
+      ],
+      "exposed": true
+    }
+  },
+  {
+    "identifier": "git_hub",
+    "title": "GitHub",
+    "icon": "Github",
+    "properties": {
+      "url": "https://npmcdszg8v.eu-west-1.awsapprunner.com/github/mcp",
+      "description": "Get code context from GitHub — PRs, commits, file content for incident investigation",
+      "allowed_tools": [
+        "git_hub_list_pull_requests",
+        "git_hub_get_file_content",
+        "git_hub_list_commits",
+        "git_hub_search_code"
+      ],
+      "exposed": true
+    }
+  },
+  {
+    "identifier": "new_relic",
+    "title": "NewRelic",
+    "icon": "NewRelic",
+    "properties": {
+      "url": "https://npmcdszg8v.eu-west-1.awsapprunner.com/newrelic/mcp",
+      "description": "Troubleshoot incidents using NewRelic metrics and error groups",
+      "allowed_tools": [
+        "new_relic_get_newrelic_entity",
+        "new_relic_execute_nrql_query",
+        "new_relic_list_newrelic_error_groups"
+      ],
+      "exposed": true
+    }
+  },
+  {
+    "identifier": "notion",
+    "title": "Notion",
+    "icon": "Notion",
+    "properties": {
+      "url": "https://npmcdszg8v.eu-west-1.awsapprunner.com/notion/mcp",
+      "description": "Search product and technical documentation in Notion",
+      "allowed_tools": [
+        "notion_search_notion",
+        "notion_query_notion_database",
+        "notion_get_notion_page",
+        "notion_list_notion_databases"
+      ],
+      "exposed": true
+    }
+  }
+]

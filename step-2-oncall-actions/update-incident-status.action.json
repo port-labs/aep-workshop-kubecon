@@ -1,0 +1,51 @@
+{
+  "identifier": "update_incident_status",
+  "title": "Update Incident Status",
+  "icon": "Edit",
+  "description": "Update the status of an incident as investigation progresses",
+  "trigger": {
+    "type": "self-service",
+    "operation": "DAY-2",
+    "blueprintIdentifier": "incident",
+    "userInputs": {
+      "properties": {
+        "new_status": {
+          "type": "string",
+          "title": "New Status",
+          "enum": ["investigating", "identified", "monitoring", "resolved"],
+          "enumColors": {
+            "investigating": "yellow",
+            "identified": "purple",
+            "monitoring": "blue",
+            "resolved": "green"
+          }
+        },
+        "status_update": {
+          "type": "string",
+          "title": "Status Update",
+          "description": "What's the latest update?"
+        },
+        "root_cause": {
+          "type": "string",
+          "title": "Root Cause",
+          "description": "Root cause (if identified)"
+        }
+      },
+      "required": ["new_status", "status_update"],
+      "order": ["new_status", "status_update", "root_cause"]
+    }
+  },
+  "invocationMethod": {
+    "type": "UPSERT_ENTITY",
+    "blueprintIdentifier": "incident",
+    "mapping": {
+      "identifier": "{{ .entity.identifier }}",
+      "properties": {
+        "status": "{{ .inputs.new_status }}",
+        "root_cause": "{{ .inputs.root_cause }}",
+        "resolved_at": "{{ if eq .inputs.new_status \"resolved\" }}{{ now | date_iso }}{{ else }}{{ .entity.properties.resolved_at }}{{ end }}"
+      }
+    }
+  },
+  "requiredApproval": false
+}

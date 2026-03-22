@@ -1,0 +1,40 @@
+{
+  "identifier": "update_incident_triage",
+  "title": "Update Incident Triage",
+  "icon": "Agent",
+  "description": "Used by the AI agent to write triage findings back to an incident. Not intended for direct human use.",
+  "trigger": {
+    "type": "self-service",
+    "operation": "DAY-2",
+    "blueprintIdentifier": "incident",
+    "userInputs": {
+      "properties": {
+        "triage_summary": {
+          "type": "string",
+          "title": "Triage Summary",
+          "format": "markdown",
+          "description": "AI-generated triage findings"
+        },
+        "hypothesis": {
+          "type": "string",
+          "title": "Hypothesis",
+          "enum": ["code_bug", "infrastructure", "external_dependency", "configuration", "capacity", "unknown"]
+        }
+      },
+      "required": ["triage_summary"],
+      "order": ["triage_summary", "hypothesis"]
+    }
+  },
+  "invocationMethod": {
+    "type": "UPSERT_ENTITY",
+    "blueprintIdentifier": "incident",
+    "mapping": {
+      "identifier": "{{ .entity.identifier }}",
+      "properties": {
+        "triage_summary": "{{ .inputs.triage_summary }}",
+        "hypothesis": "{{ .inputs.hypothesis }}"
+      }
+    }
+  },
+  "requiredApproval": false
+}

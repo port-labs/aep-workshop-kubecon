@@ -1,0 +1,92 @@
+{
+  "identifier": "notify_slack_on_triage",
+  "title": "Notify Slack on Triage Complete",
+  "description": "Post AI triage results to Slack when incident is updated with findings",
+  "icon": "Slack",
+  "trigger": {
+    "type": "automation",
+    "event": {
+      "type": "ENTITY_UPDATED",
+      "blueprintIdentifier": "incident"
+    },
+    "condition": {
+      "type": "JQ",
+      "expressions": [
+        ".diff.after.properties.triage_summary != null",
+        ".diff.before.properties.triage_summary == null"
+      ],
+      "combinator": "and"
+    }
+  },
+  "invocationMethod": {
+    "type": "WEBHOOK",
+    "url": "{{secrets.SLACK_WEBHOOK_URL}}",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "blocks": [
+        {
+          "type": "header",
+          "text": {
+            "type": "plain_text",
+            "text": "🤖 AI Triage Complete: {{.entity.identifier}}"
+          }
+        },
+        {
+          "type": "section",
+          "fields": [
+            {
+              "type": "mrkdwn",
+              "text": "*Incident:*\n{{.entity.title}}"
+            },
+            {
+              "type": "mrkdwn",
+              "text": "*Severity:*\n{{.entity.properties.severity}}"
+            },
+            {
+              "type": "mrkdwn",
+              "text": "*Hypothesis:*\n{{.entity.properties.hypothesis}}"
+            },
+            {
+              "type": "mrkdwn",
+              "text": "*Service:*\n{{.entity.relations.affected_service}}"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "*AI Triage Summary:*\n{{.entity.properties.triage_summary | truncate 500}}"
+          }
+        },
+        {
+          "type": "actions",
+          "elements": [
+            {
+              "type": "button",
+              "text": {
+                "type": "plain_text",
+                "text": "View in Port"
+              },
+              "url": "https://app.getport.io/incident/{{.entity.identifier}}",
+              "style": "primary"
+            },
+            {
+              "type": "button",
+              "text": {
+                "type": "plain_text",
+                "text": "Rollback Service"
+              },
+              "url": "https://app.getport.io/self-serve?action=rollback_service&entity={{.entity.relations.affected_service}}",
+              "style": "danger"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "publish": true
+}

@@ -1,0 +1,62 @@
+{
+  "description": "Webhook configuration for receiving PagerDuty incidents",
+  "endpoint": "https://ingest.getport.io/webhooks/pagerduty",
+  "events": [
+    "incident.triggered",
+    "incident.acknowledged", 
+    "incident.resolved"
+  ],
+  "mapping": {
+    "blueprint": "incident",
+    "entity": {
+      "identifier": ".event.data.id",
+      "title": ".event.data.title",
+      "properties": {
+        "status": ".event.data.status | if . == \"triggered\" then \"triggered\" elif . == \"acknowledged\" then \"acknowledged\" else \"resolved\" end",
+        "severity": ".event.data.urgency | if . == \"high\" then \"SEV1\" else \"SEV2\" end",
+        "description": ".event.data.description // .event.data.title",
+        "triggered_at": ".event.data.created_at",
+        "acknowledged_at": ".event.data.acknowledged_at",
+        "resolved_at": ".event.data.resolved_at",
+        "pagerduty_url": ".event.data.html_url"
+      },
+      "relations": {
+        "affected_service": ".event.data.service.name | gsub(\" \"; \"-\") | ascii_downcase"
+      }
+    }
+  },
+  "setup_instructions": {
+    "pagerduty": [
+      "1. Go to PagerDuty → Integrations → Generic Webhooks (v3)",
+      "2. Add webhook with URL: https://ingest.getport.io/webhooks/pagerduty",
+      "3. Select events: incident.triggered, incident.acknowledged, incident.resolved",
+      "4. Add custom header: Authorization: Bearer <your-port-webhook-token>",
+      "5. Save and test with a sample incident"
+    ],
+    "port": [
+      "1. Go to Port → Data Sources → Webhooks",
+      "2. Create new webhook with identifier: pagerduty-incidents",
+      "3. Copy the webhook URL",
+      "4. Apply the mapping configuration above"
+    ]
+  },
+  "testing": {
+    "sample_payload": {
+      "event": {
+        "event_type": "incident.triggered",
+        "data": {
+          "id": "INC-TEST-001",
+          "title": "Test incident - high latency",
+          "status": "triggered",
+          "urgency": "high",
+          "description": "Testing PagerDuty to Port integration",
+          "created_at": "2024-01-15T14:00:00Z",
+          "html_url": "https://acme.pagerduty.com/incidents/INC-TEST-001",
+          "service": {
+            "name": "payments-service"
+          }
+        }
+      }
+    }
+  }
+}

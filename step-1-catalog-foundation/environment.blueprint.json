@@ -1,0 +1,27 @@
+{
+  "identifier": "environment",
+  "title": "Environment",
+  "icon": "Environment",
+  "schema": {
+    "properties": {
+      "type": {
+        "title": "Type",
+        "type": "string",
+        "enum": ["production", "staging", "development"],
+        "enumColors": {
+          "production": "red",
+          "staging": "orange",
+          "development": "blue"
+        }
+      },
+      "description": {
+        "title": "Description",
+        "type": "string"
+      }
+    }
+  },
+  "relations": {},
+  "calculationProperties": {},
+  "aggregationProperties": {},
+  "mirrorProperties": {}
+}

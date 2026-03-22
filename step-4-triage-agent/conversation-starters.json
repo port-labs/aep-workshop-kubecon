@@ -1,0 +1,8 @@
+[
+  "Investigate this incident - what service is affected, what changed recently, and what should I do?",
+  "Show me all deployments from the last 24 hours and flag anything suspicious",
+  "Who is on-call right now for the affected service?",
+  "Should I rollback? What version and why?",
+  "What's the blast radius - what other services might be affected?",
+  "Help me write a status update for this incident"
+]

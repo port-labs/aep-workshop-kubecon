@@ -1,0 +1,53 @@
+{
+  "identifier": "scale_service",
+  "title": "Scale Service",
+  "icon": "Server",
+  "description": "Scale a service by updating its replica count",
+  "trigger": {
+    "type": "self-service",
+    "operation": "DAY-2",
+    "blueprintIdentifier": "service",
+    "userInputs": {
+      "properties": {
+        "environment": {
+          "type": "string",
+          "title": "Environment",
+          "enum": ["production", "staging", "development"],
+          "enumColors": { "production": "red", "staging": "orange", "development": "blue" },
+          "default": "production"
+        },
+        "replica_count": {
+          "type": "number",
+          "title": "Replica Count",
+          "minimum": 1,
+          "maximum": 20,
+          "default": 3
+        },
+        "reason": {
+          "type": "string",
+          "title": "Reason",
+          "description": "Why are you scaling this service?"
+        },
+        "duration": {
+          "type": "string",
+          "title": "Duration",
+          "enum": ["30 minutes", "1 hour", "2 hours", "4 hours", "Until manually reverted"],
+          "default": "1 hour"
+        }
+      },
+      "required": ["environment", "replica_count", "reason"],
+      "order": ["environment", "replica_count", "duration", "reason"]
+    }
+  },
+  "invocationMethod": {
+    "type": "UPSERT_ENTITY",
+    "blueprintIdentifier": "service",
+    "mapping": {
+      "identifier": "{{ .entity.identifier }}",
+      "properties": {
+        "description": "{{ .entity.properties.description }} [Scaled to {{ .inputs.replica_count }} replicas on {{ .inputs.environment }} - {{ .inputs.reason }}]"
+      }
+    }
+  },
+  "requiredApproval": false
+}

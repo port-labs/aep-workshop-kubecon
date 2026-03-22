@@ -1,0 +1,45 @@
+{
+  "identifier": "acknowledge_incident",
+  "title": "Acknowledge Incident",
+  "icon": "Checklist",
+  "description": "Acknowledge an incident and mark that you're working on it",
+  "trigger": {
+    "type": "self-service",
+    "operation": "DAY-2",
+    "blueprintIdentifier": "incident",
+    "condition": {
+      "type": "SEARCH",
+      "rules": [{ "property": "status", "operator": "=", "value": "triggered" }],
+      "combinator": "and"
+    },
+    "userInputs": {
+      "properties": {
+        "initial_assessment": {
+          "type": "string",
+          "title": "Initial Assessment",
+          "description": "What's your initial assessment of the incident?"
+        },
+        "estimated_time_to_resolve": {
+          "type": "string",
+          "title": "Estimated Time to Resolve",
+          "enum": ["15 minutes", "30 minutes", "1 hour", "2 hours", "Unknown"],
+          "default": "Unknown"
+        }
+      },
+      "required": [],
+      "order": ["initial_assessment", "estimated_time_to_resolve"]
+    }
+  },
+  "invocationMethod": {
+    "type": "UPSERT_ENTITY",
+    "blueprintIdentifier": "incident",
+    "mapping": {
+      "identifier": "{{ .entity.identifier }}",
+      "properties": {
+        "status": "acknowledged",
+        "acknowledged_at": "{{ now | date_iso }}"
+      }
+    }
+  },
+  "requiredApproval": false
+}

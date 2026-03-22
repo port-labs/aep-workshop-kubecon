@@ -1,0 +1,87 @@
+{
+  "identifier": "incident",
+  "title": "Incident",
+  "icon": "Alert",
+  "schema": {
+    "properties": {
+      "status": {
+        "title": "Status",
+        "type": "string",
+        "enum": ["triggered", "acknowledged", "investigating", "identified", "monitoring", "resolved"],
+        "enumColors": {
+          "triggered": "red",
+          "acknowledged": "orange",
+          "investigating": "yellow",
+          "identified": "purple",
+          "monitoring": "blue",
+          "resolved": "green"
+        }
+      },
+      "severity": {
+        "title": "Severity",
+        "type": "string",
+        "enum": ["SEV1", "SEV2", "SEV3", "SEV4"],
+        "enumColors": {
+          "SEV1": "red",
+          "SEV2": "orange",
+          "SEV3": "yellow",
+          "SEV4": "lightGray"
+        }
+      },
+      "description": { "title": "Description", "type": "string", "format": "markdown" },
+      "triggered_at": { "title": "Triggered At", "type": "string", "format": "date-time" },
+      "acknowledged_at": { "title": "Acknowledged At", "type": "string", "format": "date-time" },
+      "resolved_at": { "title": "Resolved At", "type": "string", "format": "date-time" },
+      "slack_channel": { "title": "Slack Channel", "type": "string" },
+      "root_cause": { "title": "Root Cause", "type": "string", "format": "markdown" },
+      "triage_summary": {
+        "title": "AI Triage Summary",
+        "type": "string",
+        "format": "markdown",
+        "description": "Written by the AI triage agent via the update_incident_triage action"
+      },
+      "hypothesis": {
+        "title": "AI Hypothesis",
+        "type": "string",
+        "enum": ["code_bug", "infrastructure", "external_dependency", "configuration", "capacity", "unknown"],
+        "enumColors": {
+          "code_bug": "purple",
+          "infrastructure": "orange",
+          "external_dependency": "blue",
+          "configuration": "yellow",
+          "capacity": "red",
+          "unknown": "lightGray"
+        }
+      }
+    },
+    "required": ["status", "severity"]
+  },
+  "relations": {
+    "affected_service": {
+      "title": "Affected Service",
+      "target": "service",
+      "required": false,
+      "many": false
+    },
+    "triggered_by_deployment": {
+      "title": "Triggered By Deployment",
+      "target": "deployment",
+      "required": false,
+      "many": false
+    }
+  },
+  "calculationProperties": {
+    "time_to_acknowledge": {
+      "title": "Time to Acknowledge",
+      "type": "string",
+      "calculation": "if .properties.acknowledged_at and .properties.triggered_at then (((.properties.acknowledged_at | fromdateiso8601) - (.properties.triggered_at | fromdateiso8601)) / 60 | floor | tostring) + \" min\" else \"—\" end"
+    },
+    "time_to_resolve": {
+      "title": "Time to Resolve",
+      "type": "string",
+      "calculation": "if .properties.resolved_at and .properties.triggered_at then (((.properties.resolved_at | fromdateiso8601) - (.properties.triggered_at | fromdateiso8601)) / 60 | floor | tostring) + \" min\" else \"—\" end"
+    }
+  },
+  "aggregationProperties": {},
+  "mirrorProperties": {}
+}

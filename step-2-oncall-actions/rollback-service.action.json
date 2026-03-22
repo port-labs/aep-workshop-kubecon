@@ -1,0 +1,50 @@
+{
+  "identifier": "rollback_service",
+  "title": "Rollback Service",
+  "icon": "Reset",
+  "description": "Rollback a service to its previous deployment version",
+  "trigger": {
+    "type": "self-service",
+    "operation": "DAY-2",
+    "blueprintIdentifier": "service",
+    "userInputs": {
+      "properties": {
+        "environment": {
+          "type": "string",
+          "title": "Environment",
+          "enum": ["production", "staging", "development"],
+          "enumColors": { "production": "red", "staging": "orange", "development": "blue" },
+          "default": "production"
+        },
+        "target_version": {
+          "type": "string",
+          "title": "Target Version",
+          "description": "Version to rollback to (leave empty for previous version)"
+        },
+        "reason": {
+          "type": "string",
+          "title": "Reason for Rollback",
+          "description": "Why are you rolling back?"
+        },
+        "confirm_rollback": {
+          "type": "boolean",
+          "title": "I confirm this rollback",
+          "default": false
+        }
+      },
+      "required": ["environment", "reason", "confirm_rollback"],
+      "order": ["environment", "target_version", "reason", "confirm_rollback"]
+    }
+  },
+  "invocationMethod": {
+    "type": "UPSERT_ENTITY",
+    "blueprintIdentifier": "service",
+    "mapping": {
+      "identifier": "{{ .entity.identifier }}",
+      "properties": {
+        "description": "{{ .entity.properties.description }} [Rollback to {{ .inputs.target_version }} on {{ .inputs.environment }} - {{ .inputs.reason }}]"
+      }
+    }
+  },
+  "requiredApproval": false
+}

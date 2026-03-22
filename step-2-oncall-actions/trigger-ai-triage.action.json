@@ -1,0 +1,41 @@
+{
+  "identifier": "trigger_ai_triage",
+  "title": "Trigger AI Triage",
+  "icon": "Agent",
+  "description": "Manually invoke the AI triage agent to investigate this incident",
+  "allowAnyoneToViewRuns": true,
+  "trigger": {
+    "type": "self-service",
+    "operation": "DAY-2",
+    "blueprintIdentifier": "incident",
+    "userInputs": {
+      "properties": {
+        "additional_context": {
+          "type": "string",
+          "title": "Additional Context",
+          "description": "Any extra context to help the AI investigate (optional)"
+        }
+      },
+      "required": [],
+      "order": ["additional_context"]
+    }
+  },
+  "invocationMethod": {
+    "type": "WEBHOOK",
+    "url": "https://api.getport.io/v1/agent/oncall_triage_agent/invoke",
+    "agent": false,
+    "synchronized": true,
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "prompt": "Investigate incident {{ .entity.identifier }}: {{ .entity.title }}\nSeverity: {{ .entity.properties.severity }}\nStatus: {{ .entity.properties.status }}\nAffected Service: {{ .entity.relations.affected_service }}\nTriggered by Deployment: {{ .entity.relations.triggered_by_deployment }}\n{{ if .inputs.additional_context }}Additional context from on-call: {{ .inputs.additional_context }}{{ end }}\n\nPlease investigate and write your findings back to incident {{ .entity.identifier }} in the triage_summary field.",
+      "context": {
+        "blueprintIdentifier": "incident",
+        "entityIdentifier": "{{ .entity.identifier }}"
+      }
+    }
+  },
+  "requiredApproval": false
+}

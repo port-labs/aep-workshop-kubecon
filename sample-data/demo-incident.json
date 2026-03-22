@@ -1,23 +1,17 @@
 {
-  "description": "The incident to create during the live demo",
-  "note": "Create this manually during the demo, or use automation to simulate PagerDuty",
-  "entity": {
-    "identifier": "INC-042",
-    "title": "payments-service high latency - customers reporting slow checkout",
-    "blueprint": "incident",
-    "properties": {
-      "status": "triggered",
-      "severity": "SEV2",
-      "description": "## Alert\\nP99 latency for payments-service exceeded 3s threshold.\\n\\n## Customer Impact\\nCustomers reporting slow checkout, some abandoning carts.\\n\\n## Initial Observations\\n- Started approximately 30 minutes ago\\n- No error rate increase, just latency\\n- Affects all payment methods",
-      "triggered_at": "2024-01-15T14:00:00Z",
-      "slack_channel": "#incident-042"
-    },
-    "relations": {
-      "affected_service": "payments-service"
-    }
+  "_note": "This is the DEMO incident — create this last to trigger the auto-triage automation",
+  "identifier": "INC-042",
+  "title": "payments-service high latency in production",
+  "blueprint": "incident",
+  "properties": {
+    "status": "triggered",
+    "severity": "SEV2",
+    "description": "P99 latency for payments-service spiked from 200ms to 2400ms. Checkout conversion dropping. Customers unable to complete purchases.",
+    "triggered_at": "2026-03-22T12:00:00Z",
+    "slack_channel": "#incident-042"
   },
-  "expected_triage_output": {
-    "triage_summary": "## Investigation Summary\\n\\n### Timeline\\n- **13:15 UTC** — payments-service v2.3.1 deployed to production\\n- **13:45 UTC** — First latency alerts triggered\\n- **14:00 UTC** — Incident created (current)\\n\\n### Findings\\n1. **Recent Deployment**: v2.3.1 was deployed 45 minutes before the incident\\n2. **Change Analysis**: The deployment added retry logic for payment processor timeouts\\n3. **Correlation**: Latency spike timing matches deployment window\\n4. **No Infrastructure Changes**: K8s cluster and dependencies show normal\\n\\n### Hypothesis\\nThe new retry logic in v2.3.1 is likely causing cascading delays. Under load, retries may be exhausting connection pools or creating backpressure.\\n\\n### Recommended Actions\\n1. **Rollback to v2.3.0** — Immediate, low-risk remediation\\n2. **Check connection pool metrics** — Verify hypothesis\\n3. **Review retry implementation** — Look for missing backoff/jitter",
-    "hypothesis": "code_bug"
+  "relations": {
+    "affected_service": "payments-service",
+    "triggered_by_deployment": "deploy-payments-v2.3.1-prod"
   }
 }

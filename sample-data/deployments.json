@@ -1,105 +1,154 @@
-{
-  "description": "Sample deployments - update timestamps relative to your demo time",
-  "note": "The key deployment is payments-service v2.3.1, deployed ~45 min before the incident",
-  "entities": [
-    {
-      "identifier": "deploy-payments-v2.3.1-prod",
-      "title": "payments-service v2.3.1 → production",
-      "blueprint": "deployment",
-      "properties": {
-        "version": "v2.3.1",
-        "status": "succeeded",
-        "deployed_at": "2024-01-15T13:15:00Z",
-        "deployed_by": "alice@acme.com",
-        "commit_sha": "a1b2c3d4e5f6",
-        "commit_message": "Add retry logic for payment processor timeouts",
-        "commit_url": "https://github.com/acme/payments-service/commit/a1b2c3d",
-        "pr_url": "https://github.com/acme/payments-service/pull/847",
-        "changelog": "## Changes\\n- Added retry logic for payment processor API calls\\n- Increased timeout from 5s to 10s\\n- Added circuit breaker for cascading failures\\n\\n## Risk\\nMedium - changes core payment flow",
-        "rollback_version": "v2.3.0",
-        "deployment_duration_seconds": 180
-      },
-      "relations": {
-        "service": "payments-service",
-        "environment": "production"
-      }
+[
+  {
+    "identifier": "deploy-payments-v2.3.1-prod",
+    "title": "payments-service v2.3.1 → production",
+    "blueprint": "deployment",
+    "properties": {
+      "version": "v2.3.1",
+      "status": "succeeded",
+      "deployed_at": "2026-03-22T08:30:00Z",
+      "deployed_by": "alice@matars-iced-americano.com",
+      "commit_sha": "a1b2c3d4",
+      "commit_message": "Add retry logic for payment processor timeouts",
+      "rollback_version": "v2.3.0"
     },
-    {
-      "identifier": "deploy-payments-v2.3.1-staging",
-      "title": "payments-service v2.3.1 → staging",
-      "blueprint": "deployment",
-      "properties": {
-        "version": "v2.3.1",
-        "status": "succeeded",
-        "deployed_at": "2024-01-15T11:00:00Z",
-        "deployed_by": "alice@acme.com",
-        "commit_sha": "a1b2c3d4e5f6",
-        "commit_message": "Add retry logic for payment processor timeouts",
-        "rollback_version": "v2.3.0",
-        "deployment_duration_seconds": 120
-      },
-      "relations": {
-        "service": "payments-service",
-        "environment": "staging"
-      }
+    "relations": { "service": "payments-service", "environment": "production" },
+    "_note": "THE KEY DEPLOYMENT — deployed today, suspected cause of INC-042"
+  },
+  {
+    "identifier": "deploy-payments-v2.3.0-prod",
+    "title": "payments-service v2.3.0 → production",
+    "blueprint": "deployment",
+    "properties": {
+      "version": "v2.3.0",
+      "status": "succeeded",
+      "deployed_at": "2026-03-20T14:00:00Z",
+      "deployed_by": "bob@matars-iced-americano.com",
+      "commit_sha": "e5f6g7h8",
+      "commit_message": "Performance improvements for high-volume transactions",
+      "rollback_version": "v2.2.9"
     },
-    {
-      "identifier": "deploy-payments-v2.3.0-prod",
-      "title": "payments-service v2.3.0 → production",
-      "blueprint": "deployment",
-      "properties": {
-        "version": "v2.3.0",
-        "status": "succeeded",
-        "deployed_at": "2024-01-13T10:30:00Z",
-        "deployed_by": "bob@acme.com",
-        "commit_sha": "9f8e7d6c5b4a",
-        "commit_message": "Update payment SDK to v3.2.0",
-        "rollback_version": "v2.2.9",
-        "deployment_duration_seconds": 165
-      },
-      "relations": {
-        "service": "payments-service",
-        "environment": "production"
-      }
+    "relations": { "service": "payments-service", "environment": "production" },
+    "_note": "Stable version — rollback target"
+  },
+  {
+    "identifier": "deploy-payments-v2.3.1-staging",
+    "title": "payments-service v2.3.1 → staging",
+    "blueprint": "deployment",
+    "properties": {
+      "version": "v2.3.1",
+      "status": "succeeded",
+      "deployed_at": "2026-03-21T16:00:00Z",
+      "deployed_by": "alice@matars-iced-americano.com",
+      "commit_sha": "a1b2c3d4",
+      "commit_message": "Add retry logic for payment processor timeouts",
+      "rollback_version": "v2.3.0"
     },
-    {
-      "identifier": "deploy-checkout-v1.8.1-prod",
-      "title": "checkout-service v1.8.1 → production",
-      "blueprint": "deployment",
-      "properties": {
-        "version": "v1.8.1",
-        "status": "succeeded",
-        "deployed_at": "2024-01-15T08:00:00Z",
-        "deployed_by": "carol@acme.com",
-        "commit_sha": "1a2b3c4d5e6f",
-        "commit_message": "Fix cart calculation for discount codes",
-        "pr_url": "https://github.com/acme/checkout-service/pull/892",
-        "rollback_version": "v1.8.0",
-        "deployment_duration_seconds": 145
-      },
-      "relations": {
-        "service": "checkout-service",
-        "environment": "production"
-      }
+    "relations": { "service": "payments-service", "environment": "staging" }
+  },
+  {
+    "identifier": "deploy-checkout-v1.8.1-prod",
+    "title": "checkout-service v1.8.1 → production",
+    "blueprint": "deployment",
+    "properties": {
+      "version": "v1.8.1",
+      "status": "succeeded",
+      "deployed_at": "2026-03-21T10:00:00Z",
+      "deployed_by": "carol@matars-iced-americano.com",
+      "commit_sha": "i9j0k1l2",
+      "commit_message": "Fix cart calculation for discount codes",
+      "rollback_version": "v1.8.0"
     },
-    {
-      "identifier": "deploy-inventory-v3.1.0-prod",
-      "title": "inventory-service v3.1.0 → production",
-      "blueprint": "deployment",
-      "properties": {
-        "version": "v3.1.0",
-        "status": "succeeded",
-        "deployed_at": "2024-01-14T16:00:00Z",
-        "deployed_by": "dave@acme.com",
-        "commit_sha": "7g8h9i0j1k2l",
-        "commit_message": "Add bulk inventory update API",
-        "rollback_version": "v3.0.2",
-        "deployment_duration_seconds": 200
-      },
-      "relations": {
-        "service": "inventory-service",
-        "environment": "production"
-      }
-    }
-  ]
-}
+    "relations": { "service": "checkout-service", "environment": "production" }
+  },
+  {
+    "identifier": "deploy-checkout-v1.8.2-staging",
+    "title": "checkout-service v1.8.2 → staging",
+    "blueprint": "deployment",
+    "properties": {
+      "version": "v1.8.2",
+      "status": "succeeded",
+      "deployed_at": "2026-03-22T06:00:00Z",
+      "deployed_by": "carol@matars-iced-americano.com",
+      "commit_sha": "y5z6a7b8",
+      "commit_message": "Add gift card support",
+      "rollback_version": "v1.8.1"
+    },
+    "relations": { "service": "checkout-service", "environment": "staging" }
+  },
+  {
+    "identifier": "deploy-inventory-v3.1.0-prod",
+    "title": "inventory-service v3.1.0 → production",
+    "blueprint": "deployment",
+    "properties": {
+      "version": "v3.1.0",
+      "status": "succeeded",
+      "deployed_at": "2026-03-19T16:00:00Z",
+      "deployed_by": "dave@matars-iced-americano.com",
+      "commit_sha": "m3n4o5p6",
+      "commit_message": "Add real-time stock tracking",
+      "rollback_version": "v3.0.5"
+    },
+    "relations": { "service": "inventory-service", "environment": "production" }
+  },
+  {
+    "identifier": "deploy-api-gateway-v4.2.0-prod",
+    "title": "api-gateway v4.2.0 → production",
+    "blueprint": "deployment",
+    "properties": {
+      "version": "v4.2.0",
+      "status": "succeeded",
+      "deployed_at": "2026-03-18T09:00:00Z",
+      "deployed_by": "eve@matars-iced-americano.com",
+      "commit_sha": "q7r8s9t0",
+      "commit_message": "Rate limiting improvements",
+      "rollback_version": "v4.1.9"
+    },
+    "relations": { "service": "api-gateway", "environment": "production" }
+  },
+  {
+    "identifier": "deploy-notification-v2.1.0-prod",
+    "title": "notification-service v2.1.0 → production",
+    "blueprint": "deployment",
+    "properties": {
+      "version": "v2.1.0",
+      "status": "succeeded",
+      "deployed_at": "2026-03-20T11:00:00Z",
+      "deployed_by": "frank@matars-iced-americano.com",
+      "commit_sha": "u1v2w3x4",
+      "commit_message": "Add SMS notification support",
+      "rollback_version": "v2.0.5"
+    },
+    "relations": { "service": "notification-service", "environment": "production" }
+  },
+  {
+    "identifier": "deploy-inventory-v3.0.5-prod",
+    "title": "inventory-service v3.0.5 → production",
+    "blueprint": "deployment",
+    "properties": {
+      "version": "v3.0.5",
+      "status": "succeeded",
+      "deployed_at": "2026-03-15T14:00:00Z",
+      "deployed_by": "dave@matars-iced-americano.com",
+      "commit_sha": "c9d0e1f2",
+      "commit_message": "Bug fix for stock sync",
+      "rollback_version": "v3.0.4"
+    },
+    "relations": { "service": "inventory-service", "environment": "production" }
+  },
+  {
+    "identifier": "deploy-gateway-v4.1.9-prod",
+    "title": "api-gateway v4.1.9 → production",
+    "blueprint": "deployment",
+    "properties": {
+      "version": "v4.1.9",
+      "status": "succeeded",
+      "deployed_at": "2026-03-14T10:00:00Z",
+      "deployed_by": "eve@matars-iced-americano.com",
+      "commit_sha": "g3h4i5j6",
+      "commit_message": "Security patch for auth module",
+      "rollback_version": "v4.1.8"
+    },
+    "relations": { "service": "api-gateway", "environment": "production" }
+  }
+]

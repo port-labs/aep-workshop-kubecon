@@ -1,31 +1,8 @@
-{
-  "entities": [
-    {
-      "identifier": "production",
-      "title": "Production",
-      "blueprint": "environment",
-      "properties": {
-        "type": "production",
-        "description": "Live customer-facing environment. All changes require approval."
-      }
-    },
-    {
-      "identifier": "staging",
-      "title": "Staging",
-      "blueprint": "environment",
-      "properties": {
-        "type": "staging",
-        "description": "Pre-production environment for final testing. Mirrors production config."
-      }
-    },
-    {
-      "identifier": "development",
-      "title": "Development",
-      "blueprint": "environment",
-      "properties": {
-        "type": "development",
-        "description": "Shared development environment for integration testing."
-      }
-    }
-  ]
-}
+[
+  { "identifier": "production",  "title": "Production",        "blueprint": "environment", "properties": { "type": "production",  "description": "Live customer-facing environment" } },
+  { "identifier": "staging",     "title": "Staging",           "blueprint": "environment", "properties": { "type": "staging",    "description": "Pre-production testing environment" } },
+  { "identifier": "development", "title": "Development",       "blueprint": "environment", "properties": { "type": "development","description": "Development and testing environment" } },
+  { "identifier": "qa",          "title": "QA",                "blueprint": "environment", "properties": { "type": "staging",    "description": "Quality assurance testing environment" } },
+  { "identifier": "load-test",   "title": "Load Test",         "blueprint": "environment", "properties": { "type": "staging",    "description": "Performance and load testing environment" } },
+  { "identifier": "dr",          "title": "Disaster Recovery", "blueprint": "environment", "properties": { "type": "production", "description": "Disaster recovery environment" } }
+]

@@ -1,0 +1,91 @@
+[
+  {
+    "identifier": "INC-035",
+    "title": "Payment processing timeout",
+    "blueprint": "incident",
+    "properties": {
+      "status": "resolved", "severity": "SEV1",
+      "description": "All payment transactions timing out",
+      "triggered_at": "2026-03-05T16:00:00Z", "acknowledged_at": "2026-03-05T16:02:00Z", "resolved_at": "2026-03-05T16:30:00Z",
+      "root_cause": "External payment provider outage",
+      "slack_channel": "#incident-035"
+    },
+    "relations": { "affected_service": "payments-service" }
+  },
+  {
+    "identifier": "INC-036",
+    "title": "User login failures",
+    "blueprint": "incident",
+    "properties": {
+      "status": "resolved", "severity": "SEV2",
+      "description": "Users unable to log in, auth tokens not being generated",
+      "triggered_at": "2026-03-07T08:00:00Z", "acknowledged_at": "2026-03-07T08:05:00Z", "resolved_at": "2026-03-07T08:45:00Z",
+      "root_cause": "Expired SSL certificate on auth service",
+      "slack_channel": "#incident-036"
+    },
+    "relations": { "affected_service": "user-service" }
+  },
+  {
+    "identifier": "INC-038",
+    "title": "API Gateway high error rate",
+    "blueprint": "incident",
+    "properties": {
+      "status": "resolved", "severity": "SEV2",
+      "description": "Elevated 5xx errors on API Gateway affecting 15% of requests",
+      "triggered_at": "2026-03-10T14:30:00Z", "acknowledged_at": "2026-03-10T14:35:00Z", "resolved_at": "2026-03-10T15:45:00Z",
+      "root_cause": "Memory leak in rate limiter module",
+      "slack_channel": "#incident-038"
+    },
+    "relations": { "affected_service": "api-gateway" }
+  },
+  {
+    "identifier": "INC-039",
+    "title": "Inventory sync delays",
+    "blueprint": "incident",
+    "properties": {
+      "status": "resolved", "severity": "SEV3",
+      "description": "Stock levels not updating in real-time, 5 minute delay observed",
+      "triggered_at": "2026-03-12T09:00:00Z", "acknowledged_at": "2026-03-12T09:10:00Z", "resolved_at": "2026-03-12T10:30:00Z",
+      "root_cause": "Database connection pool exhaustion",
+      "slack_channel": "#incident-039"
+    },
+    "relations": { "affected_service": "inventory-service" }
+  },
+  {
+    "identifier": "INC-041",
+    "title": "Checkout service intermittent 500 errors",
+    "blueprint": "incident",
+    "properties": {
+      "status": "resolved", "severity": "SEV2",
+      "description": "Intermittent 500 errors on checkout page affecting ~5% of requests",
+      "triggered_at": "2026-03-18T14:30:00Z", "acknowledged_at": "2026-03-18T14:35:00Z", "resolved_at": "2026-03-18T15:15:00Z",
+      "root_cause": "Race condition in cart validation",
+      "slack_channel": "#incident-041"
+    },
+    "relations": { "affected_service": "checkout-service" }
+  },
+  {
+    "identifier": "INC-043",
+    "title": "inventory-service slow database queries",
+    "blueprint": "incident",
+    "properties": {
+      "status": "investigating", "severity": "SEV3",
+      "description": "Database queries taking 5x longer than normal, affecting inventory lookups",
+      "triggered_at": "2026-03-22T09:30:00Z", "acknowledged_at": "2026-03-22T09:35:00Z",
+      "slack_channel": "#incident-043"
+    },
+    "relations": { "affected_service": "inventory-service" }
+  },
+  {
+    "identifier": "INC-044",
+    "title": "notification-service email delays",
+    "blueprint": "incident",
+    "properties": {
+      "status": "acknowledged", "severity": "SEV4",
+      "description": "Order confirmation emails delayed by 10-15 minutes",
+      "triggered_at": "2026-03-22T10:00:00Z", "acknowledged_at": "2026-03-22T10:05:00Z",
+      "slack_channel": "#incident-044"
+    },
+    "relations": { "affected_service": "notification-service" }
+  }
+]

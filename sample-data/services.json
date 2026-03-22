@@ -1,84 +1,10 @@
-{
-  "entities": [
-    {
-      "identifier": "payments-service",
-      "title": "Payments Service",
-      "blueprint": "service",
-      "properties": {
-        "tier": "Tier 1",
-        "lifecycle": "Production",
-        "description": "Handles all payment processing including credit cards, digital wallets, and invoicing. Critical path for revenue.",
-        "slack_channel": "#payments-team",
-        "documentation_url": "https://docs.internal/payments",
-        "latest_version": "v2.3.1"
-      },
-      "relations": {
-        "repository": "acme-payments-service"
-      }
-    },
-    {
-      "identifier": "checkout-service",
-      "title": "Checkout Service",
-      "blueprint": "service",
-      "properties": {
-        "tier": "Tier 1",
-        "lifecycle": "Production",
-        "description": "Customer-facing checkout flow. Orchestrates cart, payments, and order creation.",
-        "slack_channel": "#checkout-team",
-        "documentation_url": "https://docs.internal/checkout",
-        "latest_version": "v1.8.1"
-      },
-      "relations": {
-        "repository": "acme-checkout-service"
-      }
-    },
-    {
-      "identifier": "inventory-service",
-      "title": "Inventory Service",
-      "blueprint": "service",
-      "properties": {
-        "tier": "Tier 2",
-        "lifecycle": "Production",
-        "description": "Manages product inventory, stock levels, and warehouse integration.",
-        "slack_channel": "#inventory-team",
-        "documentation_url": "https://docs.internal/inventory",
-        "latest_version": "v3.1.0"
-      },
-      "relations": {
-        "repository": "acme-inventory-service"
-      }
-    },
-    {
-      "identifier": "notification-service",
-      "title": "Notification Service",
-      "blueprint": "service",
-      "properties": {
-        "tier": "Tier 3",
-        "lifecycle": "Production",
-        "description": "Sends transactional emails, SMS, and push notifications.",
-        "slack_channel": "#platform-team",
-        "documentation_url": "https://docs.internal/notifications",
-        "latest_version": "v2.0.5"
-      },
-      "relations": {
-        "repository": "acme-notification-service"
-      }
-    },
-    {
-      "identifier": "api-gateway",
-      "title": "API Gateway",
-      "blueprint": "service",
-      "properties": {
-        "tier": "Tier 1",
-        "lifecycle": "Production",
-        "description": "Edge service handling authentication, rate limiting, and request routing.",
-        "slack_channel": "#platform-team",
-        "documentation_url": "https://docs.internal/api-gateway",
-        "latest_version": "v4.2.0"
-      },
-      "relations": {
-        "repository": "acme-api-gateway"
-      }
-    }
-  ]
-}
+[
+  { "identifier": "payments-service",     "title": "Payments Service",     "blueprint": "service", "properties": { "tier": "Tier 1 - Critical",  "lifecycle": "production", "description": "Handles all payment processing and transactions",  "slack_channel": "#payments-team"      }, "relations": { "repository": "payments-service-repo"     } },
+  { "identifier": "checkout-service",     "title": "Checkout Service",     "blueprint": "service", "properties": { "tier": "Tier 1 - Critical",  "lifecycle": "production", "description": "Manages shopping cart and checkout flow",           "slack_channel": "#checkout-team"      }, "relations": { "repository": "checkout-service-repo"     } },
+  { "identifier": "inventory-service",    "title": "Inventory Service",    "blueprint": "service", "properties": { "tier": "Tier 2 - Important", "lifecycle": "production", "description": "Tracks coffee bean and supply inventory",           "slack_channel": "#inventory-team"     }, "relations": { "repository": "inventory-service-repo"    } },
+  { "identifier": "api-gateway",          "title": "API Gateway",          "blueprint": "service", "properties": { "tier": "Tier 1 - Critical",  "lifecycle": "production", "description": "Main entry point for all API traffic",             "slack_channel": "#platform-team"      }, "relations": { "repository": "api-gateway-repo"          } },
+  { "identifier": "notification-service", "title": "Notification Service", "blueprint": "service", "properties": { "tier": "Tier 3 - Standard",  "lifecycle": "production", "description": "Sends order updates via email and SMS",            "slack_channel": "#notifications-team" }, "relations": { "repository": "notification-service-repo" } },
+  { "identifier": "order-service",        "title": "Order Service",        "blueprint": "service", "properties": { "tier": "Tier 1 - Critical",  "lifecycle": "production", "description": "Manages order lifecycle and fulfillment",           "slack_channel": "#orders-team"        }, "relations": { "repository": "order-service-repo"        } },
+  { "identifier": "user-service",         "title": "User Service",         "blueprint": "service", "properties": { "tier": "Tier 2 - Important", "lifecycle": "production", "description": "Handles user authentication and profiles",          "slack_channel": "#users-team"         }, "relations": { "repository": "user-service-repo"         } },
+  { "identifier": "analytics-service",    "title": "Analytics Service",    "blueprint": "service", "properties": { "tier": "Tier 3 - Standard",  "lifecycle": "production", "description": "Business analytics and reporting",                 "slack_channel": "#analytics-team"     }, "relations": { "repository": "analytics-service-repo"    } }
+]

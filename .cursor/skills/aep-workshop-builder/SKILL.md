@@ -688,7 +688,34 @@ After creating:
 >
 > The agent has a 6-step investigation framework and conversation starters designed for the dashboard."
 
-### 4.2 Add Agent Widget to Dashboard
+### 4.2 Create the RCA Agent via MCP
+
+While we're here, let's also create a second agent — the **RCA Agent**. After an incident is resolved, the on-call needs to write a post-mortem. This agent does it for them.
+
+```
+CallMcpTool: server="user-port-eu", toolName="upsert_entity"
+blueprintIdentifier: "_ai_agent"
+```
+
+Read the full agent config from `step-4-triage-agent/rca-agent.json`.
+
+Key differences from the triage agent:
+- **No `run_update_incident_triage` tool** — it generates a document, doesn't write back
+- **Conversation starters** focused on post-incident analysis: "Generate an RCA", "Write a post-mortem", "What action items should we create?"
+- **Prompt** outputs a structured markdown RCA with timeline, root cause, impact, action items, and lessons learned
+
+After creating:
+> "✓ Created **RCA Agent**
+>
+> **View your agents:** https://app.getport.io/_ai_agents
+>
+> You now have two agents:
+> - **On-Call Triage Agent** — investigates during the incident
+> - **RCA Agent** — documents after the incident
+>
+> Same catalog, different moment in the lifecycle."
+
+### 4.3 Add Agent Widgets to Dashboard
 
 > "Now add the agent to your On-Call Dashboard:
 >
@@ -698,16 +725,19 @@ After creating:
 > 4. Select **On-Call Triage Agent**
 > 5. Save
 >
-> Now the on-call has a copilot right in their command center — with one-click conversation starters!"
+> Now the on-call has a copilot right in their command center — with one-click conversation starters!
+>
+> Add the **RCA Agent** widget too:
+> - Add widget → **AI Agent** → Select **RCA Agent**"
 
 When done:
-> "Your AI agent is live on the dashboard!
+> "Both AI agents are live on the dashboard!
 >
-> **What we achieved:** A copilot that can investigate and recommend — but the human stays in control.
+> **What we achieved:** Two copilots for two moments in the incident lifecycle:
+> - **Triage Agent** — fires during the incident, investigates and recommends
+> - **RCA Agent** — fires after the incident, generates the post-mortem
 >
-> Try clicking one of the conversation starters: *'Investigate this incident'*
->
-> Notice how it queries the catalog we built. No magic — just good data and a structured investigation framework.
+> Try the RCA agent on a resolved incident: *'Generate an RCA for this incident'*
 >
 > Ready for the final step?"
 

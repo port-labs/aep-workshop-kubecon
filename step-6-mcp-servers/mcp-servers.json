@@ -6,10 +6,7 @@
     "properties": {
       "url": "https://npmcdszg8v.eu-west-1.awsapprunner.com/aws/mcp",
       "description": "Troubleshoot cloud infrastructure for incident resolution via AWS Cloudwatch MCP",
-      "oauth_config": {
-        "client_id": "pagerduty_token_new",
-        "client_secret": "e+ETXwVTMfZZhgKZC2wg"
-      },
+      "oauth_config": null,
       "allowed_tools": [
         "aws_get_cloudwatch_metrics",
         "aws_get_cloudwatch_logs",

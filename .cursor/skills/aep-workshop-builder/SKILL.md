@@ -784,7 +784,9 @@ CallMcpTool: server="user-port-eu", toolName="upsert_action"
         "entityIdentifier": "{{ .event.diff.after.identifier }}"
       }
     }
-  }
+  },
+  "publish": true,
+  "allowAnyoneToViewRuns": true
 }
 ```
 

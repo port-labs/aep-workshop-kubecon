@@ -23,7 +23,7 @@
     "type": "WEBHOOK",
     "url": "https://api.getport.io/v1/agent/oncall_triage_agent/invoke",
     "agent": false,
-    "synchronized": false,
+    "synchronized": true,
     "method": "POST",
     "headers": {
       "Content-Type": "application/json"

@@ -938,7 +938,38 @@ After creating:
 >
 > **View them:** https://app.getport.io/_mcp_servers"
 
-### 6.4 Investigate an Incident with MCP Tools
+### 6.4 Create an Investigation Skill in Port
+
+> "Here's something powerful — Port has a native `skill` blueprint. You can codify your investigation playbooks directly in the catalog. The agent loads them automatically.
+>
+> Let's create an **Investigate Incident** skill that teaches the agent exactly how to investigate."
+
+First create the `skill` blueprint:
+```
+CallMcpTool: toolName="upsert_blueprint"
+blueprint: skill (with description, instructions, references, assets properties)
+```
+
+Then create the skill entity:
+```
+CallMcpTool: toolName="upsert_entity"
+blueprintIdentifier: "skill"
+identifier: "investigate-incident"
+```
+
+The skill content is in `step-6-mcp-servers/investigate-incident.skill.json`.
+
+Verify it loads:
+```
+CallMcpTool: toolName="load_skill"
+name: "investigate-incident"
+```
+
+> "The agent now has a codified playbook. When someone asks it to investigate, it loads this skill and follows the 6-step framework — get context, check deployments, check logs, find on-call, form hypothesis, write back.
+>
+> This is how you make AI behavior consistent and auditable. Not prompt engineering in a chat box — a versioned playbook in your catalog."
+
+### 6.5 Investigate an Incident with MCP Tools
 
 > "Now let's use them. Here's how:
 >

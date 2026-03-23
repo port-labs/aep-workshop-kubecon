@@ -48,3 +48,25 @@ These are real demo servers that respond with realistic data — perfect for the
 2. Press **⌘ + I** to open the AI chat
 3. Click **+** to select MCP servers (Datadog + GitHub recommended)
 4. Ask: *"Investigate this incident. Check the Datadog logs and GitHub commits for the v2.3.1 deployment."*
+
+## Port Skills — Teaching the Agent How to Investigate
+
+Port has a native `skill` blueprint that lets you codify investigation playbooks directly in the catalog. The agent loads these skills automatically when triggered.
+
+**File:** `investigate-incident.skill.json`
+
+This skill teaches the agent the 6-step investigation framework:
+1. Get incident context
+2. Check recent deployments (flag HIGH SUSPICION within 2h of incident)
+3. Check external tools (Datadog logs, GitHub commits)
+4. Find who's on-call
+5. Form a hypothesis
+6. Write findings back via `update_incident_triage`
+
+### How to create it
+
+1. First create the `skill` blueprint via MCP (`upsert_blueprint`)
+2. Then create the skill entity via MCP (`upsert_entity` on `skill` blueprint)
+3. Verify it loads: `load_skill({ name: "investigate-incident" })`
+
+The agent will now automatically load this playbook when asked to investigate an incident.

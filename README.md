@@ -1,6 +1,6 @@
 # From IDP to AEP: Building an AI-Enhanced Platform
 
-**KubeCon Workshop** · 2 hours · Port + Cursor
+**KubeCon Workshop** · 2 hours · Port + Your IDE
 
 ---
 
@@ -12,7 +12,7 @@ By the end, when a production incident fires:
 1. The AI agent **automatically investigates** — correlates deployments, checks who's on-call
 2. It **writes findings** back to the incident entity
 3. The on-call opens the dashboard and sees the analysis **already done**
-4. They press **⌘+I**, pull in Datadog logs and GitHub commits to confirm
+4. They open AI chat, pull in Datadog logs and GitHub commits to confirm
 5. They click **Rollback** — one button, done
 
 No magic. Just good data, good prompts, and good actions.
@@ -23,7 +23,7 @@ No magic. Just good data, good prompts, and good actions.
 
 **You need:**
 - A [Port account](https://app.getport.io/signup) (free tier works)
-- [Cursor IDE](https://cursor.sh) with the Port MCP configured
+- An IDE with MCP support: **Cursor**, **VS Code**, or any MCP-compatible editor
 
 **Then:**
 
@@ -31,10 +31,19 @@ No magic. Just good data, good prompts, and good actions.
 ```bash
 git clone https://github.com/port-labs/aep-workshop-kubecon
 cd aep-workshop-kubecon
-cursor .
 ```
 
-2. Configure the Port MCP in Cursor — add this to your `~/.cursor/mcp.json`:
+2. Configure the Port MCP for your IDE (see setup instructions below)
+
+3. Start the workshop — pick your IDE:
+
+---
+
+## MCP Setup by IDE
+
+### Cursor
+
+1. Add this to your `~/.cursor/mcp.json`:
 ```json
 {
   "mcpServers": {
@@ -45,45 +54,72 @@ cursor .
 }
 ```
 
-Then in Cursor, when prompted to authenticate, sign in with your Port account.
+2. Restart Cursor, then authenticate when prompted
 
-> **Note:** The MCP URL is region-specific. If your Port account is on EU, use `https://mcp.port.io/v1`. Check your region at **https://app.getport.io/settings/credentials**
+3. Open this repo and say: **"Start the AEP workshop"**
 
-3. Start the workshop — pick your IDE:
-
----
-
-### Cursor
-
-The workshop skill is already included at `.cursor/skills/aep-workshop-builder/SKILL.md`. Cursor picks it up automatically.
-
-Open a new chat and say:
-> **"Start the AEP workshop"**
+The workshop skill at `.cursor/skills/aep-workshop-builder/SKILL.md` is picked up automatically.
 
 ---
 
-### VS Code + GitHub Copilot
+### VS Code
 
-The repo includes a prompt file for Copilot. In VS Code Chat, type:
-> **`/start-workshop`**
+1. Install the [MCP extension for VS Code](https://marketplace.visualstudio.com/items?itemName=anthropics.claude-mcp) (or use GitHub Copilot with MCP support)
 
-Or open Copilot Chat and say:
-> **"Start the AEP workshop"**
+2. Add the Port MCP to your VS Code settings. Open **Settings (JSON)** and add:
+```json
+{
+  "mcp.servers": {
+    "port": {
+      "url": "https://mcp.port.io/v1"
+    }
+  }
+}
+```
 
-The `.github/copilot-instructions.md` file gives Copilot the workshop context automatically.
+Or create/edit `.vscode/mcp.json` in your workspace:
+```json
+{
+  "mcpServers": {
+    "port": {
+      "url": "https://mcp.port.io/v1"
+    }
+  }
+}
+```
+
+3. Restart VS Code, then authenticate when prompted
+
+4. Open AI chat and say: **"Start the AEP workshop"**
+
+> **Tip:** The `.github/copilot-instructions.md` file provides workshop context for GitHub Copilot automatically.
 
 ---
 
-### Any other AI assistant (Claude, ChatGPT, etc.)
+### Other MCP-Compatible Editors
 
-Copy the contents of `.cursor/skills/aep-workshop-builder/SKILL.md` into your AI chat and say:
-> **"Follow this workshop guide and start from the beginning"**
+For any editor that supports MCP (Claude Desktop, Windsurf, etc.):
+
+1. Add the Port MCP server with URL: `https://mcp.port.io/v1`
+2. Authenticate with your Port account when prompted
+3. Copy the contents of `.cursor/skills/aep-workshop-builder/SKILL.md` into your AI chat
+4. Say: **"Follow this workshop guide and start from the beginning"**
 
 ---
 
-### No AI — manual
+### No AI — Manual Mode
 
 Each step folder has a `README.md` and JSON files. Follow the READMEs in order and push configs via the Port UI at **https://app.getport.io**.
+
+---
+
+## Region Configuration
+
+The MCP URL is region-specific:
+- **US region:** `https://mcp.port.io/v1`
+- **EU region:** `https://mcp.port-eu.io/v1`
+
+Check your region at **https://app.getport.io/settings/credentials**
 
 ---
 

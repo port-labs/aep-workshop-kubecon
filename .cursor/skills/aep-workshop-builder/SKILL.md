@@ -28,6 +28,17 @@ For each step, we follow this pattern:
 
 This way participants understand both the concepts AND how to automate them.
 
+## JSON Snippets for Manual Steps
+
+**IMPORTANT:** When guiding manual creation steps, ALWAYS provide a JSON snippet that the user can copy-paste into Port's JSON editor. This makes the workshop faster and reduces errors.
+
+Format for providing JSON:
+> "Here's the JSON you can copy-paste into Port's JSON editor:
+> ```json
+> { ... }
+> ```
+> Or follow the UI steps below if you prefer clicking through the form."
+
 ---
 
 ## Behavior
@@ -118,25 +129,60 @@ Say:
 
 ### 1.1 Create First Blueprint Manually (Service)
 
-Guide them through UI creation:
-> "Let's create the **Service** blueprint together in the UI:
+Guide them through UI creation, providing JSON for copy-paste:
+> "Let's create the **Service** blueprint. Here's the JSON you can copy-paste:
 >
 > 1. Go to **https://app.getport.io/settings/data-model**
-> 2. Click **'+ Blueprint'**
-> 3. Configure:
->    - **Identifier:** `service`
->    - **Title:** `Service`
->    - **Icon:** Choose `Microservice`
+> 2. Click **'+ Blueprint'** → **'Edit JSON'** (or use the form)
+> 3. Paste this JSON:
 >
-> 4. Add these properties:
->    - `tier` (String, Enum: 'Tier 1 - Critical', 'Tier 2 - Important', 'Tier 3 - Standard')
->    - `lifecycle` (String, Enum: 'production', 'experimental', 'deprecated')
->    - `description` (String)
->    - `slack_channel` (String)
+> ```json
+> {
+>   "identifier": "service",
+>   "title": "Service",
+>   "icon": "Microservice",
+>   "schema": {
+>     "properties": {
+>       "tier": {
+>         "title": "Tier",
+>         "type": "string",
+>         "enum": ["Tier 1 - Critical", "Tier 2 - Important", "Tier 3 - Standard"],
+>         "enumColors": {
+>           "Tier 1 - Critical": "red",
+>           "Tier 2 - Important": "orange",
+>           "Tier 3 - Standard": "green"
+>         }
+>       },
+>       "lifecycle": {
+>         "title": "Lifecycle",
+>         "type": "string",
+>         "enum": ["production", "experimental", "deprecated"],
+>         "enumColors": {
+>           "production": "green",
+>           "experimental": "orange",
+>           "deprecated": "red"
+>         }
+>       },
+>       "description": {
+>         "title": "Description",
+>         "type": "string"
+>       },
+>       "slack_channel": {
+>         "title": "Slack Channel",
+>         "type": "string"
+>       }
+>     }
+>   },
+>   "relations": {},
+>   "calculationProperties": {},
+>   "aggregationProperties": {},
+>   "mirrorProperties": {}
+> }
+> ```
 >
-> 5. Click **Save**
+> 4. Click **Save**
 >
-> Let me know when you're done!"
+> Let me know when you're done (or say 'create it for me')!"
 
 When they confirm:
 > "Great! You just created your first blueprint. 
@@ -173,22 +219,30 @@ When all done:
 
 ### 1.3 Create First Entity Manually (Service)
 
-Guide them:
-> "Let's create a service entity manually:
+Guide them with JSON for copy-paste:
+> "Let's create a service entity. Here's the JSON you can copy-paste:
 >
 > 1. Go to **https://app.getport.io/services** (or click on the Service blueprint)
-> 2. Click **'+ Service'**
-> 3. Fill in:
->    - **Identifier:** `payments-service`
->    - **Title:** `Payments Service`
->    - **Tier:** `Tier 1 - Critical`
->    - **Lifecycle:** `production`
->    - **Description:** `Handles all payment processing`
->    - **Slack Channel:** `#payments-team`
+> 2. Click **'+ Service'** → **'Edit JSON'** (or use the form)
+> 3. Paste this JSON:
+>
+> ```json
+> {
+>   "identifier": "payments-service",
+>   "title": "Payments Service",
+>   "properties": {
+>     "tier": "Tier 1 - Critical",
+>     "lifecycle": "production",
+>     "description": "Handles all payment processing",
+>     "slack_channel": "#payments-team"
+>   },
+>   "relations": {}
+> }
+> ```
 >
 > 4. Click **Save**
 >
-> Let me know when you're done!"
+> Let me know when you're done (or say 'create it for me')!"
 
 When they confirm:
 > "You just created your first entity!
@@ -292,37 +346,55 @@ Say:
 
 ### 2.1 Create First Action Manually (Acknowledge Incident)
 
-Guide them:
-> "Let's create the **Acknowledge Incident** action manually:
+Guide them with JSON for copy-paste:
+> "Let's create the **Acknowledge Incident** action. Here's the JSON you can copy-paste:
 >
 > 1. Go to **https://app.getport.io/self-serve**
-> 2. Click **'+ Action'**
-> 3. Configure:
->    - **Title:** `Acknowledge Incident`
->    - **Identifier:** `acknowledge_incident`
->    - **Icon:** Choose `Checklist`
->    - **Blueprint:** Select `Incident`
->    - **Operation:** `Day-2` (action on existing entity)
+> 2. Click **'+ Action'** → **'Edit JSON'** (or use the form)
+> 3. Paste this JSON:
 >
-> 4. Add a **Condition** (so it only shows for triggered incidents):
->    - Property: `status`
->    - Operator: `=`
->    - Value: `triggered`
+> ```json
+> {
+>   "identifier": "acknowledge_incident",
+>   "title": "Acknowledge Incident",
+>   "description": "Acknowledge that you are investigating this incident",
+>   "trigger": {
+>     "type": "self-service",
+>     "operation": "DAY-2",
+>     "blueprintIdentifier": "incident",
+>     "userInputs": {
+>       "properties": {
+>         "initial_assessment": {
+>           "type": "string",
+>           "title": "Initial Assessment",
+>           "description": "What's your initial assessment of the situation?"
+>         },
+>         "estimated_time_to_resolve": {
+>           "type": "string",
+>           "title": "Estimated Time to Resolve",
+>           "enum": ["15 min", "30 min", "1 hour", "2 hours", "Unknown"]
+>         }
+>       },
+>       "required": []
+>     }
+>   },
+>   "invocationMethod": {
+>     "type": "UPSERT_ENTITY",
+>     "blueprintIdentifier": "incident",
+>     "mapping": {
+>       "identifier": "{{ .entity.identifier }}",
+>       "properties": {
+>         "status": "acknowledged",
+>         "acknowledged_at": "{{ now | date:\"2006-01-02T15:04:05Z07:00\" }}"
+>       }
+>     }
+>   }
+> }
+> ```
 >
-> 5. Add User Inputs:
->    - `initial_assessment` (String) — What's your initial assessment?
->    - `estimated_time_to_resolve` (String, Enum: 15 min/30 min/1 hour/2 hours/Unknown)
+> 4. Click **Save**
 >
-> 6. For Backend, select **Upsert Entity** and configure the mapping:
->    - Blueprint: `incident`
->    - Identifier: `{{ .entity.identifier }}`
->    - Properties:
->      - `status`: `acknowledged`
->      - `acknowledged_at`: `{{ now | date_iso }}`
->
-> 7. Click **Save**
->
-> Let me know when you're done!"
+> Let me know when you're done (or say 'create it for me')!"
 
 When they confirm:
 > "You just created your first action!
@@ -892,23 +964,35 @@ Say:
 
 ### 6.2 Add First MCP Server Manually (Datadog)
 
-Guide them:
-> "Let's add the Datadog MCP server manually first:
+Guide them with JSON for copy-paste:
+> "Let's add the Datadog MCP server. Here's the JSON you can copy-paste:
 >
 > 1. Go to **https://app.getport.io/_mcp_servers**
-> 2. Click **'+ Add MCP Server'**
-> 3. Select **'Custom'** (not the Datadog native option — we're using our own demo proxy)
-> 4. Fill in:
->    - **Title:** `Datadog`
->    - **Icon:** `Datadog`
->    - **URL:** `https://npmcdszg8v.eu-west-1.awsapprunner.com/datadog/mcp`
->    - **Description:** `Investigate metrics, logs, and incidents in Datadog`
->    - **Allowed Tools:** `datadog_search_datadog_logs`, `datadog_get_datadog_metrics`, `datadog_get_datadog_service_dependencies`, `datadog_search_datadog_incidents`
->    - **Exposed:** toggle on
+> 2. Click **'+ MCP Server'** → **'Edit JSON'** (or use the form)
+> 3. Paste this JSON:
 >
-> 5. Click **Save**
+> ```json
+> {
+>   "identifier": "datadog",
+>   "title": "Datadog",
+>   "icon": "Datadog",
+>   "properties": {
+>     "url": "https://npmcdszg8v.eu-west-1.awsapprunner.com/datadog/mcp",
+>     "description": "Investigate metrics, logs, and incidents in Datadog",
+>     "allowed_tools": [
+>       "datadog_search_datadog_logs",
+>       "datadog_get_datadog_metrics",
+>       "datadog_get_datadog_service_dependencies",
+>       "datadog_search_datadog_incidents"
+>     ],
+>     "exposed": true
+>   }
+> }
+> ```
 >
-> Let me know when you're done!"
+> 4. Click **Save**
+>
+> Let me know when you're done (or say 'create it for me')!"
 
 When they confirm:
 > "You just registered your first MCP server!
